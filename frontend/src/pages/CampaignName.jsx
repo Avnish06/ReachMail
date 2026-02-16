@@ -24,56 +24,52 @@ const CampaignName = () => {
   };
   return (
     <CampaignLayout>
-
-      <div className="pt-28 min-h-screen flex items-center justify-center bg-gray-50">
-
-        <div className="bg-white p-8 rounded-xl shadow max-w-md w-full space-y-5">
-
-          <h2 className="text-2xl font-bold text-center">
-            Create New Campaign
-          </h2>
-
-          <p className="text-sm text-gray-500 text-center">
-            Give your campaign a meaningful name
-          </p>
-
-          {/* Input */}
-          <input
-            type="text"
-            placeholder="Enter Campaign Name"
-            value={campaign.name}
-            onChange={(e) =>
-              setCampaign({
-                ...campaign,
-                name: e.target.value,
-              })
-            }
-            className="w-full p-3 border rounded focus:outline-none focus:ring-2 transition"
-            style={{ '--tw-ring-color': '#0ea5a4' }}
-            onFocus={(e) => e.target.style.borderColor = '#0ea5a4'}
-            onBlur={(e) => e.target.style.borderColor = '#d1d5db'}
-          />
-
-          {/* Error */}
-          {error && (
-            <p className="text-red-500 text-sm">
-              {error}
+      <div className="pt-28 min-h-screen flex items-center justify-center bg-background px-6 relative overflow-hidden">
+        <div className="bg-grid absolute inset-0 opacity-20 pointer-events-none" />
+        
+        <div className="bg-card border border-white/5 p-10 rounded-2xl shadow-2xl max-w-md w-full space-y-6 relative z-10 backdrop-blur-sm">
+          <div className="space-y-2 text-center">
+            <h2 className="text-2xl font-bold text-white tracking-tight">
+              Create New Campaign
+            </h2>
+            <p className="text-sm text-muted-foreground">
+              Give your campaign a meaningful name
             </p>
-          )}
+          </div>
 
-          {/* Button */}
-          <button
-            onClick={next}
-            className="w-full text-white py-3 rounded font-semibold hover:opacity-90 transition"
-            style={{ backgroundColor: '#0ea5a4' }}
-          >
-            Next →
-          </button>
+          <div className="space-y-4">
+            {/* Input */}
+            <input
+              type="text"
+              placeholder="e.g. Summer Newsletter 2024"
+              value={campaign.name}
+              onChange={(e) =>
+                setCampaign({
+                  ...campaign,
+                  name: e.target.value,
+                })
+              }
+              className="w-full bg-background border border-white/10 p-4 rounded-xl text-white focus:outline-none focus:border-primary transition-all shadow-inner"
+            />
 
+            {/* Error */}
+            {error && (
+              <p className="text-destructive text-xs font-medium pl-1 animate-pulse">
+                {error}
+              </p>
+            )}
+
+            {/* Button */}
+            <button
+              onClick={next}
+              className="w-full bg-primary text-white py-4 rounded-full font-bold shadow-lg shadow-primary/20 hover:opacity-90 transition-all flex items-center justify-center gap-2"
+            >
+              Continue
+              <span className="text-lg">→</span>
+            </button>
+          </div>
         </div>
-
       </div>
-
     </CampaignLayout>
   );
 };
