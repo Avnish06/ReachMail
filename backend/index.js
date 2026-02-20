@@ -38,9 +38,13 @@ app.use("/api/v1/sendmail", sendEmailroute)
 app.use("/api/v1/template", templateRouting)
 app.use("/api/v1/analytics", analyticsRouting)
 app.use("/api/v1/ai", aiRouter)
-app.listen(process.env.PORT, (req, res) => {
-  console.log(`Server is listening on the ${process.env.PORT}`)
-})
+// Only listen locally. Vercel handles the server via the exported app.
+if (process.env.NODE_ENV !== 'production' && !process.env.VERCEL) {
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, (req, res) => {
+    console.log(`Server is listening on the ${PORT}`)
+  })
+}
 
 export default app;
 
