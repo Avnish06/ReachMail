@@ -42,4 +42,6 @@ app.listen(process.env.PORT, (req, res) => {
   console.log(`Server is listening on the ${process.env.PORT}`)
 })
 
+export default app;
+
 
