@@ -25,7 +25,7 @@ export const contactDetails = async (req, res) => {
 
     // ✅ Add contacts correctly (no nested array)
     user.contacts.push(...contact);
-    
+
 
     // ✅ Optional: Auto-deduplicate (recommended)
     user.contacts = [...new Set(user.contacts)];
@@ -46,18 +46,17 @@ export const contactDetails = async (req, res) => {
   }
 };
 
-export const sendContactdetails = async(req, res) => {
+export const sendContactdetails = async (req, res) => {
   try {
     const user = await User.findById(req.userId)
-    if(!user)
-    {
-       return res.status(400).json({message: "User Details is required"})
+    if (!user) {
+      return res.status(400).json({ message: "User Details is required" })
     }
-     const contactDetails = await user.contact
-  
-     return res.status(200).json({message:"User data fetched successfully"})
+    const contactDetails = user.contacts
+
+    return res.status(200).json({ contacts: contactDetails, message: "User data fetched successfully" })
   } catch (error) {
-     return res.status("Something went Wrong while fetching the user details", error)
+    return res.status(500).json({ message: "Something went Wrong while fetching the user details", error: error.message })
   }
 
 }

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCampaign } from "../Context/CampaignContext";
 import { frontendTemplates } from "../data/templateData";
-import { Zap } from "lucide-react";
+import { Zap, Sparkles } from "lucide-react";
 
 export default function TemplateLibrary() {
   const navigate = useNavigate();
@@ -14,18 +14,13 @@ export default function TemplateLibrary() {
 
   const categories = [
     { name: "All", count: frontendTemplates.length },
-    { name: "Announcement", count: frontendTemplates.filter(t => t.category === "Announcement").length },
-    { name: "Confirmation", count: frontendTemplates.filter(t => t.category === "Confirmation").length },
-    { name: "Educational", count: frontendTemplates.filter(t => t.category === "Educational").length },
-    { name: "Receipt", count: frontendTemplates.filter(t => t.category === "Receipt").length },
-    { name: "Event", count: frontendTemplates.filter(t => t.category === "Event").length },
+    { name: "Modern", count: frontendTemplates.filter(t => t.category === "Modern").length },
     { name: "Marketing", count: frontendTemplates.filter(t => t.category === "Marketing").length },
     { name: "Newsletter", count: frontendTemplates.filter(t => t.category === "Newsletter").length },
+    { name: "Announcement", count: frontendTemplates.filter(t => t.category === "Announcement").length },
     { name: "Onboarding", count: frontendTemplates.filter(t => t.category === "Onboarding").length },
-    { name: "Promotional", count: frontendTemplates.filter(t => t.category === "Promotional").length },
-    { name: "Re-Engagement", count: frontendTemplates.filter(t => t.category === "Re-Engagement").length },
     { name: "Transactional", count: frontendTemplates.filter(t => t.category === "Transactional").length },
-    { name: "Warning", count: frontendTemplates.filter(t => t.category === "Warning").length },
+    { name: "Event", count: frontendTemplates.filter(t => t.category === "Event").length },
   ];
 
   const filteredTemplates = frontendTemplates.filter(template => {
@@ -62,39 +57,39 @@ export default function TemplateLibrary() {
   /* ================= UI ================= */
 
   return (
-    <div className="flex h-screen bg-background">
+    <div className="flex h-screen bg-[#f8fafc]">
       {/* Sidebar */}
-      <aside className="w-64 bg-card border-r border-border flex flex-col">
+      <aside className="w-72 bg-white border-r border-slate-200 flex flex-col shadow-sm">
         {/* Logo */}
-        <div className="h-16 flex items-center px-6 border-b border-border">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-primary-foreground">
-              <Zap size={18} />
+        <div className="h-20 flex items-center px-8 border-b border-slate-100">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-indigo-200">
+              <Zap size={22} />
             </div>
-            <span className="font-bold text-lg tracking-tight text-foreground">EmailSpark</span>
+            <span className="font-bold text-xl tracking-tight text-slate-900">EmailSpark</span>
           </div>
         </div>
 
         {/* Categories */}
-        <div className="flex-1 overflow-y-auto py-4">
-          <div className="px-3 mb-2">
-            <h3 className="px-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-              Template Categories
+        <div className="flex-1 overflow-y-auto py-6 px-4">
+          <div className="mb-4">
+            <h3 className="px-4 text-[11px] font-bold text-slate-400 uppercase tracking-[0.1em] mb-4">
+              Explore Templates
             </h3>
           </div>
-          <nav className="space-y-1 px-3">
+          <nav className="space-y-1.5">
             {categories.map((cat) => (
               <button
                 key={cat.name}
                 onClick={() => setSelectedCategory(cat.name)}
-                className={`w-full flex items-center justify-between px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                className={`w-full flex items-center justify-between px-4 py-3 rounded-xl text-[14px] font-semibold transition-all duration-200 ${
                   selectedCategory === cat.name
-                    ? "bg-primary/10 text-primary border-l-3 border-primary"
-                    : "text-foreground hover:bg-accent/10"
+                    ? "bg-indigo-50 text-indigo-700 shadow-sm shadow-indigo-100"
+                    : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
                 }`}
               >
                 <span>{cat.name}</span>
-                <span className={`text-xs px-2 py-0.5 rounded-full ${selectedCategory === cat.name ? "bg-primary/20 text-primary" : "bg-muted text-muted-foreground"}`}>
+                <span className={`text-[11px] px-2.5 py-0.5 rounded-full font-bold ${selectedCategory === cat.name ? "bg-indigo-200/50 text-indigo-700" : "bg-slate-100 text-slate-500"}`}>
                   {cat.count}
                 </span>
               </button>
@@ -103,12 +98,12 @@ export default function TemplateLibrary() {
         </div>
 
         {/* Footer */}
-        <div className="p-4 border-t border-border">
+        <div className="p-6 border-t border-slate-100">
           <button
             onClick={() => navigate("/")}
-            className="w-full btn-ghost text-left justify-start text-foreground hover:bg-accent/10"
+            className="w-full flex items-center gap-2 px-4 py-3 text-[14px] font-medium text-slate-500 hover:text-slate-900 hover:bg-slate-50 rounded-xl transition-all"
           >
-            ← Back to Campaigns
+            <span className="text-lg">←</span> Back to Home
           </button>
         </div>
       </aside>
@@ -116,125 +111,147 @@ export default function TemplateLibrary() {
       {/* Main Content */}
       <main className="flex-1 flex flex-col overflow-hidden">
         {/* Top Bar */}
-        <header className="h-16 bg-card border-b border-border flex items-center justify-between px-6">
+        <header className="h-20 bg-white/80 backdrop-blur-md border-b border-slate-200 flex items-center justify-between px-8 sticky top-0 z-10">
           <div>
-            <h1 className="text-xl font-semibold text-foreground">Email Templates</h1>
-            <p className="text-sm text-muted-foreground">Choose a template to get started</p>
+            <h1 className="text-2xl font-bold text-slate-900">Template Gallery</h1>
+            <p className="text-sm text-slate-500 font-medium">Select a premium starting point</p>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
             {/* Search */}
-            <div className="relative">
-              <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            <div className="relative group">
+              <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-indigo-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
               <input
                 type="text"
-                placeholder="Search templates..."
+                placeholder="Search premium templates..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="input pl-10 w-64 bg-background border-border text-foreground"
+                className="h-11 pl-11 pr-4 w-72 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all outline-none"
               />
             </div>
-            <button onClick={handleStartFromScratch} className="btn-primary">
-              + New Template
+            <button 
+              onClick={handleStartFromScratch} 
+              className="h-11 px-6 bg-slate-900 text-white rounded-xl font-bold hover:bg-slate-800 transition-all shadow-lg active:scale-95 flex items-center gap-2"
+            >
+              <span>+</span> Blank Canvas
             </button>
           </div>
         </header>
 
         {/* Templates Grid */}
-        <div className="flex-1 overflow-y-auto p-6">
-          {/* Start From Scratch Card */}
-          <div
-            onClick={handleStartFromScratch}
-            className="card mb-6 p-6 cursor-pointer hover:shadow-md transition-shadow border-2 border-dashed border-primary/30 hover:border-primary bg-primary/5 rounded-xl"
-          >
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center">
-                <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                </svg>
+        <div className="flex-1 overflow-y-auto p-8 custom-scrollbar">
+          {/* Featured AI Section */}
+          <div className="mb-12 relative rounded-3xl overflow-hidden p-8 flex items-center justify-between bg-indigo-600 text-white shadow-2xl shadow-indigo-200">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.2),transparent_40%)]" />
+            <div className="relative z-10 max-w-lg">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 border border-white/30 mb-6 backdrop-blur-sm">
+                <span className="w-1.5 h-1.5 rounded-full bg-indigo-300 animate-pulse"></span>
+                <span className="text-[11px] font-bold uppercase tracking-wider">New AI Integration</span>
               </div>
-              <div className="flex-1">
-                <h3 className="font-semibold text-foreground mb-1">Start From Scratch</h3>
-                <p className="text-sm text-muted-foreground">
-                  Create your own custom email design with our visual editor
-                </p>
-              </div>
-              <svg className="w-5 h-5 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
+              <h2 className="text-3xl font-bold mb-4 tracking-tight">Generate custom templates with Magic AI</h2>
+              <p className="text-indigo-100 text-base mb-8 leading-relaxed">
+                Describe your campaign goal and our AI will craft a high-converting layout in seconds. 
+                Save time and launch faster.
+              </p>
+              <button 
+                onClick={() => navigate("/campaign/editor")}
+                className="h-12 px-8 bg-white text-indigo-700 rounded-xl font-bold hover:bg-indigo-50 transition-all active:scale-95 shadow-xl"
+              >
+                Try Magic AI →
+              </button>
+            </div>
+            <div className="hidden lg:block relative group">
+              <div className="absolute -inset-4 bg-white/10 blur-2xl rounded-full animate-pulse group-hover:bg-white/20 transition-all"></div>
+              <Zap size={160} className="relative z-10 text-white/20 group-hover:text-white/40 transition-colors" />
             </div>
           </div>
 
+          <div className="flex items-center justify-between mb-8">
+            <h3 className="text-xl font-bold text-slate-900">
+              {selectedCategory === "All" ? "All Premium Templates" : `${selectedCategory} Templates`}
+            </h3>
+            <div className="h-[2px] flex-1 mx-6 bg-slate-100"></div>
+          </div>
+
           {/* Templates Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-8">
             {filteredTemplates.map((template) => (
               <div
                 key={template.id}
                 onClick={() => handleSelectTemplate(template)}
-                className="card overflow-hidden cursor-pointer hover:shadow-lg hover:border-primary/50 transition-all group bg-card border border-border rounded-xl"
+                className="group relative flex flex-col bg-white rounded-3xl border border-slate-200 overflow-hidden hover:shadow-2xl hover:shadow-indigo-100 hover:-translate-y-2 transition-all duration-300"
               >
-                {/* Preview */}
-                <div className="bg-gray-100 h-64 flex items-center justify-center overflow-hidden relative">
-                  <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-gray-100"></div>
-                  <div className="relative bg-white rounded shadow-sm p-4 w-11/12 h-5/6 overflow-hidden">
-                    {/* Mini Preview */}
-                    <div className="space-y-2 text-xs">
-                      {template.blocks.slice(0, 5).map((block, idx) => (
-                        <div key={idx}>
-                          {block.type === "text" && (
-                            <p
-                              style={{
-                                fontSize: Math.max(block.data.size / 3, 8),
-                                color: block.data.color,
-                                fontWeight: block.data.bold ? "bold" : "normal",
-                                textAlign: block.data.align,
-                              }}
-                              className="truncate"
-                            >
-                              {block.data.text.split("\n")[0]}
-                            </p>
-                          )}
-                          {block.type === "image" && (
-                            <div className="bg-gray-200 h-12 rounded"></div>
-                          )}
-                          {block.type === "button" && (
-                            <div className="text-center">
-                              <span
-                                style={{
-                                  background: block.data.bg,
-                                  color: block.data.color,
+                {/* Preview Container */}
+                <div className="aspect-[4/5] bg-slate-100 overflow-hidden relative border-b border-slate-100">
+                  <div className="absolute inset-0 bg-gradient-to-br from-slate-50 to-slate-100 group-hover:from-indigo-50 group-hover:to-indigo-100 transition-colors duration-500"></div>
+                  
+                  {/* Mini Canvas */}
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[85%] h-[85%] bg-white rounded-2xl shadow-xl overflow-hidden scale-90 group-hover:scale-100 transition-all duration-500">
+                     {/* Mini Content Renderer */}
+                     <div className="p-3 scale-75 origin-top-left w-[133%] h-[133%]" style={{ pointerEvents: 'none' }}>
+                        {template.blocks.slice(0, 6).map((block, idx) => (
+                          <div key={idx} className="mb-2 last:mb-0">
+                            {block.type === "text" && (
+                              <div 
+                                style={{ 
+                                  height: 8, 
+                                  width: block.data.text.length > 50 ? '100%' : '70%', 
+                                  backgroundColor: block.data.color, 
+                                  borderRadius: 4,
+                                  opacity: 0.2,
+                                  textAlign: block.data.align === 'center' ? 'center' : 'left',
+                                  margin: block.data.align === 'center' ? 'auto' : '0'
                                 }}
-                                className="inline-block px-2 py-1 rounded text-xs"
-                              >
-                                {block.data.text}
-                              </span>
-                            </div>
-                          )}
-                          {block.type === "divider" && (
-                            <hr style={{ backgroundColor: block.data.color, height: 1 }} />
-                          )}
-                        </div>
-                      ))}
-                    </div>
+                              />
+                            )}
+                            {block.type === "image" && (
+                              <div className="w-full h-24 bg-slate-200 rounded-lg overflow-hidden flex items-center justify-center">
+                                <span className="text-slate-400 text-[10px] font-bold">IMAGE</span>
+                              </div>
+                            )}
+                            {block.type === "button" && (
+                              <div 
+                                className="h-6 rounded-md w-1/2 mx-auto" 
+                                style={{ backgroundColor: block.data.bg }}
+                              />
+                            )}
+                          </div>
+                        ))}
+                     </div>
                   </div>
-                  {/* Hover Overlay */}
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors flex items-center justify-center">
-                    <button className="btn-primary opacity-0 group-hover:opacity-100 transition-opacity">
-                      Use Template
-                    </button>
+
+                  {/* Icon Badge */}
+                  <div className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm shadow-md flex items-center justify-center text-slate-400 group-hover:text-indigo-600 group-hover:scale-110 transition-all">
+                    <Zap size={18} />
                   </div>
                 </div>
 
-                {/* Info */}
-                <div className="p-4">
-                  <div className="flex items-start justify-between mb-2">
-                    <h3 className="font-semibold text-foreground">{template.name}</h3>
-                    <span className="badge badge-secondary text-xs">{template.category}</span>
+                {/* Footer Info */}
+                <div className="p-6">
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="px-3 py-1 bg-indigo-50 text-indigo-700 text-[10px] font-bold uppercase tracking-wider rounded-lg">
+                      {template.category}
+                    </span>
+                    {template.category === "Modern" && (
+                      <span className="flex items-center gap-1 text-amber-500 text-[10px] font-bold uppercase tracking-wider">
+                         <Sparkles size={10} /> Hot
+                      </span>
+                    )}
                   </div>
-                  <p className="text-sm text-muted-foreground line-clamp-2">
+                  <h3 className="text-lg font-bold text-slate-900 group-hover:text-indigo-600 transition-colors mb-2">
+                    {template.name}
+                  </h3>
+                  <p className="text-sm text-slate-500 font-medium line-clamp-2 leading-relaxed">
                     {template.description}
                   </p>
+                </div>
+
+                {/* Hover CTA */}
+                <div className="absolute inset-0 bg-indigo-900/10 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none flex items-center justify-center">
+                   <div className="bg-slate-900 text-white px-6 py-3 rounded-xl font-bold shadow-2xl scale-75 group-hover:scale-100 transition-all duration-300">
+                      Use Template
+                   </div>
                 </div>
               </div>
             ))}
@@ -242,14 +259,22 @@ export default function TemplateLibrary() {
 
           {/* Empty State */}
           {filteredTemplates.length === 0 && (
-            <div className="text-center py-20">
-              <svg className="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
-              <h3 className="text-lg font-semibold text-slate-900 mb-2">No templates found</h3>
-              <p className="text-gray-600">
-                Try adjusting your search or filter criteria
+            <div className="text-center py-32 animate-in fade-in slide-in-from-bottom-5 duration-500">
+              <div className="w-20 h-20 bg-slate-100 rounded-2xl flex items-center justify-center text-slate-300 mx-auto mb-6">
+                <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+              </div>
+              <h3 className="text-2xl font-bold text-slate-900 mb-2">No templates found</h3>
+              <p className="text-slate-500 font-medium">
+                Try adjusting your search or filter criteria. We're adding new designs weekly!
               </p>
+              <button 
+                onClick={() => { setSelectedCategory("All"); setSearchQuery(""); }}
+                className="mt-8 text-indigo-600 font-bold hover:underline"
+              >
+                Clear all filters
+              </button>
             </div>
           )}
         </div>

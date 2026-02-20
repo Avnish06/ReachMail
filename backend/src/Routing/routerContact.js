@@ -5,8 +5,8 @@ import { sendContactdetails } from "../controllers/contact.js";
 
 export const contactRouter = express.Router()
 
-contactRouter.post("/contactdetails",isAuth , contactDetails)
-contactRouter.get("/fetchcontactdetails",sendContactdetails)
+contactRouter.post("/contactdetails", isAuth, contactDetails)
+contactRouter.get("/fetchcontactdetails", isAuth, sendContactdetails)
 
 
 

@@ -228,12 +228,22 @@ const Home = () => {
             <p className="text-[12px] font-semibold tracking-[1px] text-muted-foreground mb-6">
               TRUSTED BY 10,000+ TEAMS
             </p>
-            <div className="flex flex-wrap justify-center gap-10 opacity-40 grayscale hover:grayscale-0 transition-all duration-500 text-foreground">
-              {logos.map(({ icon: Icon, name }) => (
-                <div key={name} className="flex items-center gap-2 text-xl font-bold">
-                  <Icon size={20} /> {name}
-                </div>
-              ))}
+            {/* Scrolling Logo Container */}
+            <div className="relative overflow-hidden">
+              <div className="flex gap-10 animate-scroll-logos">
+                {/* First set of logos */}
+                {logos.map(({ icon: Icon, name }, idx) => (
+                  <div key={`${name}-1-${idx}`} className="flex items-center gap-2 text-xl font-bold text-foreground opacity-40 hover:opacity-100 transition-opacity whitespace-nowrap">
+                    <Icon size={20} /> {name}
+                  </div>
+                ))}
+                {/* Duplicate set for seamless loop */}
+                {logos.map(({ icon: Icon, name }, idx) => (
+                  <div key={`${name}-2-${idx}`} className="flex items-center gap-2 text-xl font-bold text-foreground opacity-40 hover:opacity-100 transition-opacity whitespace-nowrap">
+                    <Icon size={20} /> {name}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -307,53 +317,59 @@ const Home = () => {
             </p>
           </div>
 
-          <div className="flex flex-col md:flex-row justify-center items-center gap-8 md:gap-4 lg:gap-8 pb-12">
+          <div className="flex flex-col md:flex-row justify-center items-center gap-6 md:gap-4 lg:gap-6 pb-12">
             
             {/* Left Template: BrightPath */}
-            <div className="w-full max-w-[320px] transition-all duration-500 hover:-translate-y-4 hover:rotate-0 group order-2 md:order-1">
+            <div className="w-full max-w-[240px] transition-all duration-500 hover:-translate-y-4 hover:rotate-0 group order-2 md:order-1">
               <div className="overflow-hidden rounded-2xl shadow-2xl border border-white/10 bg-[#161616] md:-rotate-3 group-hover:border-primary/30 transition-all duration-500">
-                <img 
-                  src={brightPathImg} 
-                  alt="BrightPath Template" 
-                  className="w-full h-auto object-cover opacity-80 group-hover:opacity-100 transition-opacity"
-                />
-                <div className="p-5 bg-gradient-to-b from-[#161616] to-[#0f0f0f]">
-                  <p className="font-bold text-white text-lg">BrightPath</p>
+                <div className="h-[320px] overflow-hidden">
+                  <img 
+                    src={brightPathImg} 
+                    alt="BrightPath Template" 
+                    className="w-full h-full object-cover object-top opacity-80 group-hover:opacity-100 transition-opacity"
+                  />
+                </div>
+                <div className="p-4 bg-gradient-to-b from-[#161616] to-[#0f0f0f]">
+                  <p className="font-bold text-white text-base">BrightPath</p>
                   <p className="text-[10px] text-gray-500 uppercase tracking-[0.2em] font-semibold mt-1">Non-profit</p>
                 </div>
               </div>
             </div>
 
             {/* Center Template: Co-Lab (Featured Focus) */}
-            <div className="w-full max-w-[360px] relative z-20 transition-all duration-500 hover:-translate-y-6 group order-1 md:order-2">
+            <div className="w-full max-w-[260px] relative z-20 transition-all duration-500 hover:-translate-y-6 group order-1 md:order-2">
               <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-amber-400 to-orange-500 text-black text-[10px] font-black uppercase px-4 py-1.5 rounded-full shadow-[0_0_20px_rgba(245,158,11,0.4)] flex items-center gap-1.5 z-30">
                 <Zap size={10} fill="currentColor" />
                 Most Popular
               </div>
               
-              <div className="overflow-hidden rounded-2xl shadow-[0_40px_100px_-15px_rgba(0,181,173,0.3)] border-2 border-primary/50 bg-[#1a1a1a] scale-100 md:scale-110 group-hover:border-primary transition-all duration-700">
-                <img 
-                  src={colabImg} 
-                  alt="Co-Lab Template" 
-                  className="w-full h-auto object-cover"
-                />
-                <div className="p-6 bg-gradient-to-b from-[#1a1a1a] to-[#121212]">
-                  <p className="font-bold text-white text-xl">Co-Lab</p>
+              <div className="overflow-hidden rounded-2xl shadow-[0_40px_100px_-15px_rgba(0,181,173,0.3)] border-2 border-primary/50 bg-[#1a1a1a] scale-100 md:scale-105 group-hover:border-primary transition-all duration-700">
+                <div className="h-[360px] overflow-hidden">
+                  <img 
+                    src={colabImg} 
+                    alt="Co-Lab Template" 
+                    className="w-full h-full object-cover object-top"
+                  />
+                </div>
+                <div className="p-5 bg-gradient-to-b from-[#1a1a1a] to-[#121212]">
+                  <p className="font-bold text-white text-lg">Co-Lab</p>
                   <p className="text-[10px] text-primary uppercase tracking-[0.2em] font-black mt-1">Modern Agency</p>
                 </div>
               </div>
             </div>
 
             {/* Right Template: FinBank */}
-            <div className="w-full max-w-[320px] transition-all duration-500 hover:-translate-y-4 hover:rotate-0 group order-3">
+            <div className="w-full max-w-[240px] transition-all duration-500 hover:-translate-y-4 hover:rotate-0 group order-3">
               <div className="overflow-hidden rounded-2xl shadow-2xl border border-white/10 bg-[#161616] md:rotate-3 group-hover:border-primary/30 transition-all duration-500">
-                <img 
-                  src={finbankImg} 
-                  alt="FinBank Template" 
-                  className="w-full h-auto object-cover opacity-80 group-hover:opacity-100 transition-opacity"
-                />
-                <div className="p-5 bg-gradient-to-b from-[#161616] to-[#0f0f0f]">
-                  <p className="font-bold text-white text-lg">FinBank</p>
+                <div className="h-[320px] overflow-hidden">
+                  <img 
+                    src={finbankImg} 
+                    alt="FinBank Template" 
+                    className="w-full h-full object-cover object-top opacity-80 group-hover:opacity-100 transition-opacity"
+                  />
+                </div>
+                <div className="p-4 bg-gradient-to-b from-[#161616] to-[#0f0f0f]">
+                  <p className="font-bold text-white text-base">FinBank</p>
                   <p className="text-[10px] text-gray-500 uppercase tracking-[0.2em] font-semibold mt-1">Corporate Banking</p>
                 </div>
               </div>
@@ -418,3 +434,4 @@ const Home = () => {
 };
 
 export default Home;
+

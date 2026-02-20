@@ -12,7 +12,46 @@ const ImportContacts = () => {
   const [method, setMethod] = useState("");
   const [manualEmail, setManualEmail] = useState("");
   const [dragging, setDragging] = useState(false);
+  const [savedContacts, setSavedContacts] = useState([]);
+  const [loadingSaved, setLoadingSaved] = useState(false);
   const navigate = useNavigate()
+
+  const fetchPrevious = async () => {
+    setLoadingSaved(true);
+    try {
+      const response = await axios.get(
+        AppUrl + "/contactinfo/fetchcontactdetails",
+        { withCredentials: true }
+      );
+      setSavedContacts(response.data.contacts || []);
+    } catch (error) {
+      console.error(error);
+      if (error.response?.status === 400 || error.response?.status === 401) {
+        toast.error("Please login to fetch saved contacts");
+        navigate("/login");
+      } else {
+        toast.error("Failed to fetch saved contacts");
+      }
+    } finally {
+      setLoadingSaved(false);
+    }
+  };
+
+  const addFromSaved = (email) => {
+    if (campaign.contacts.includes(email)) return;
+    setCampaign({
+      ...campaign,
+      contacts: [...campaign.contacts, email],
+    });
+  };
+
+  const addAllSaved = () => {
+    const merged = [...new Set([...campaign.contacts, ...savedContacts])];
+    setCampaign({
+      ...campaign,
+      contacts: merged,
+    });
+  };
 
   const storeContact = async () => {
     try {
@@ -58,7 +97,13 @@ const ImportContacts = () => {
       const sheet = workbook.Sheets[workbook.SheetNames[0]];
       const json = XLSX.utils.sheet_to_json(sheet);
       const emails = json
-        .map((row) => row.Email || row.email)
+        .map((row) => {
+          // Find a key that contains "email" (case-insensitive)
+          const emailKey = Object.keys(row).find(key => 
+            key.toLowerCase().includes("email")
+          );
+          return emailKey ? row[emailKey] : null;
+        })
         .filter(Boolean);
       if (!emails.length) {
         alert("No emails found");
@@ -124,7 +169,15 @@ const ImportContacts = () => {
 
             <MethodCard title="CRM" icon="🏢" disabled />
             <MethodCard title="ERP" icon="🏭" disabled />
-            <MethodCard title="Previous" icon="📂" disabled />
+            <MethodCard 
+              title="Previous" 
+              icon="📂" 
+              active={method === "previous"}
+              onClick={() => {
+                setMethod("previous");
+                fetchPrevious();
+              }}
+            />
           </div>
         </div>
         
@@ -191,6 +244,45 @@ const ImportContacts = () => {
                 Browse File
               </label>
             </div>
+          </div>
+        )}
+
+        {method === "previous" && (
+          <div className="space-y-4">
+            <div className="flex justify-between items-center">
+              <h3 className="font-semibold text-foreground">
+                Saved Contacts
+              </h3>
+              {savedContacts.length > 0 && (
+                <button
+                  onClick={addAllSaved}
+                  className="text-xs font-bold text-primary hover:underline"
+                >
+                  Add All Saved
+                </button>
+              )}
+            </div>
+
+            {loadingSaved ? (
+              <p className="text-center py-4 text-muted-foreground">Loading...</p>
+            ) : savedContacts.length === 0 ? (
+              <p className="text-center py-4 text-muted-foreground italic">No saved contacts found in database.</p>
+            ) : (
+              <div className="max-h-60 overflow-y-auto border border-border rounded-xl divide-y divide-border">
+                {savedContacts.map((email) => (
+                  <div key={email} className="flex justify-between items-center p-3 hover:bg-muted/50 transition-colors">
+                    <span className="text-sm">{email}</span>
+                    <button
+                      disabled={campaign.contacts.includes(email)}
+                      onClick={() => addFromSaved(email)}
+                      className="text-xs font-bold text-primary disabled:text-muted-foreground transition-colors"
+                    >
+                      {campaign.contacts.includes(email) ? "Added" : "Add"}
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         )}
 
